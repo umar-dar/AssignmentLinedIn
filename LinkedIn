@@ -1,0 +1,60 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+
+# Path to the ChromeDriver executable
+chromedriver_path = 'path_to_chromedriver.exe'  # Update this with the actual path
+
+# LinkedIn credentials
+username = "your_username"
+password = "your_password"
+
+# Create a Chrome WebDriver instance
+driver = webdriver.Chrome(executable_path=chromedriver_path)
+
+# Open Chrome and navigate to LinkedIn
+driver.get("https://www.linkedin.com")
+
+# Find the login form elements and fill in the credentials
+username_field = driver.find_element("id", "username")
+password_field = driver.find_element("id", "password")
+
+username_field.send_keys(username)
+password_field.send_keys(password)
+
+# Submit the form
+password_field.send_keys(Keys.RETURN)
+
+# Wait for some time to let the login process complete
+time.sleep(5)
+
+# Perform actions after login, such as searching for a connection and sending a message
+search_bar = driver.find_element("class_name", "search-global-typeahead__input")
+search_bar.send_keys("Name of the connection")  # Replace with the name of the connection you're looking for
+search_bar.send_keys(Keys.RETURN)
+
+# Wait for search results to load
+time.sleep(5)
+
+# Click on the connection's profile
+connection_profile = driver.find_element("class_name", "search-result__result-link")
+connection_profile.click()
+
+# Wait for the profile page to load
+time.sleep(5)
+
+# Click on the "Message" button to start a conversation
+message_button = driver.find_element("class_name", "pv-s-profile-actions__message")
+message_button.click()
+
+# Find the message input box and send a message
+message_input = driver.find_element("class_name", "msg-form__contenteditable")
+message_text = "Hello! This is an automated message."
+message_input.send_keys(message_text)
+message_input.send_keys(Keys.RETURN)
+
+# Wait for a moment to let the message send
+time.sleep(2)
+
+# Close the browser window when you're done
+driver.quit()
